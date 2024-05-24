@@ -46,14 +46,14 @@ services:
   # gophish-tools:
   #   image: cisagov/gophish-tools:latest
 
-  # mailhog:
-  #   image: mailhog/mailhog
-  #   restart: always
-  #   ports:
-  #     - target: 8025
-  #       published: 8025
-  #       protocol: tcp
-  #       mode: host
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - target: 8025
+        published: 8025
+        protocol: tcp
+        mode: host
 
   postfix:
     build:
