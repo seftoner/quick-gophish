@@ -25,14 +25,6 @@ services:
     ports:
       - "3333:3333"
       - "3380:8080"
-      # - target: 3333
-      #   published: 3333
-      #   protocol: tcp
-      #   mode: host
-      # - target: 8080
-      #   published: 3380
-      #   protocol: tcp
-      #   mode: host
     networks:
       - default
     secrets:
@@ -55,13 +47,9 @@ services:
     restart: always
     ports:
       - "8025:8025"
+      - "1025:1025"
     networks:
       - default
-    # ports:
-    #   - target: 8025
-    #     published: 8025
-    #     protocol: tcp
-    #     mode: host
 
   postfix:
     build:
@@ -76,14 +64,6 @@ services:
     ports:
       - "1025:25"
       - "1587:587"
-      # - target: 25
-      #   published: 1025
-      #   protocol: tcp
-      #   mode: host
-      # - target: 587
-      #   published: 1587
-      #   protocol: tcp
-      #   mode: host
     secrets:
       - source: postfix_fullchain_pem
         target: fullchain.pem

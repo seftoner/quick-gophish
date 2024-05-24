@@ -37,15 +37,6 @@ RUN apt-get update --quiet --quiet \
 RUN groupadd --system --gid ${CISA_GID} ${CISA_GROUP} \
     && useradd --system --uid ${CISA_UID} --gid ${CISA_GROUP} --comment "${CISA_USER} user" ${CISA_USER}
 
-# Set the password for the user (replace 'yourpassword' with a secure password)
-RUN echo "${CISA_USER}:123456" | chpasswd
-
-# Add the user to the sudo group
-RUN usermod -aG sudo ${CISA_USER}
-
-# Grant the user passwordless sudo access
-RUN echo "${CISA_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
 ###
 # Install everything we need
 #
