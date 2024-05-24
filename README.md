@@ -1,6 +1,6 @@
 # quick-gophish
 
-❗️ This is fork of [pca-gophish-composition](https://github.com/cisagov/pca-gophish-composition) ❗️
+❗️ This is a fork of [pca-gophish-composition](https://github.com/cisagov/pca-gophish-composition) ❗️
 
 Creates a Docker composition containing instances of:
 
