@@ -62,8 +62,8 @@ services:
       # the default network subnet defined below.
       - RELAY_IP=172.16.202.0/24
     ports:
-      - "1025:25"
-      - "1587:587"
+      - "2525:25"
+      - "587:587"
     secrets:
       - source: postfix_fullchain_pem
         target: fullchain.pem
