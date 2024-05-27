@@ -33,8 +33,8 @@ They are included to simplify testing.
 
 This composition exposes the following ports to the localhost:
 
-- 1025: `postfix SMTP`
-- 1587: `postfix submission`
+- 2525: `postfix SMTP`
+- 587: `postfix submission`
 - [3333](https://localhost:3333): `gophish admin server`
 - [3380](http://localhost:3380): `gophish phish server`
 - [8025](http://localhost:8025): `mailhog web interface`
