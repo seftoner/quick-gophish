@@ -41,12 +41,21 @@ services:
 
   evilginx2:
     build:
-        context: ./evilginx2
+      context: ./evilginx2
+      dockerfile: Dockerfile
     container_name: evilginx2
     ports:
       - "80:80"
       - "443:443"
-    restart: unless-stopped
+    command: ["/bin/bash"]
+    # command: ["/app/bin/evilginx", "-p", "/app/phishlets", "-debug", "-developer"]
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./evilginx2/app/:/root/.evilginx
+      - ./evilginx2/app/phishlets:/app/phishlets
+    stdin_open: true
+    tty: true
 
   # mailhog:
   #   image: mailhog/mailhog

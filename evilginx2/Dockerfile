@@ -1,9 +1,8 @@
-# Use an official Debian image as the base
-FROM debian:bullseye-slim
+FROM ubuntu:latest
 
 # Environment variables
-ENV EVILGINX_HOME=/usr/local/evilginx2
-ENV GO_VERSION=1.22.2
+ENV PROJECT_DIR="/app/src/evilginx2"
+ENV EVILGINX_BIN="/app/bin/evilginx"
 
 # Install dependencies
 RUN apt-get update --quiet --quiet \
@@ -11,36 +10,25 @@ RUN apt-get update --quiet --quiet \
     git \
     gcc \
     make \
-    bash \
-    libc-dev \
-    libpcap-dev \
-    wget \
-    ca-certificates
-
-# Install Go
-RUN wget https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
-    && rm go${GO_VERSION}.linux-amd64.tar.gz
-
-# Set Go environment variables
-ENV PATH="/usr/local/go/bin:${PATH}"
-
-# Install Node.js
-# RUN curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh \
-#     && bash nodesource_setup.sh \
-#     $$ apt-get install -y nodejs
+    golang
 
 # Clone the evilginx2 repository
-RUN git clone https://github.com/kgretzky/evilginx2.git ${EVILGINX_HOME}
+RUN git clone https://github.com/kgretzky/evilginx2.git ${PROJECT_DIR}
 
 # Set working directory
-WORKDIR ${EVILGINX_HOME}
+WORKDIR ${PROJECT_DIR}
 
 # Build the application
-RUN make
+RUN make \
+    && mkdir /app/bin \
+    && cp ${PROJECT_DIR}/build/evilginx ${EVILGINX_BIN}
+
+WORKDIR /app
 
 # Expose necessary ports
 EXPOSE 80 443
 
-# Entry point to run evilginx2
-ENTRYPOINT ["./bin/evilginx2"]
+# COPY ./docker-entrypoint.sh /opt/
+# RUN chmod +x /opt/docker-entrypoint.sh
+
+CMD [${EVILGINX_BIN}, "-p", "/app/phishlets"]
