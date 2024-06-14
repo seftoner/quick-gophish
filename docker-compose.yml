@@ -17,60 +17,66 @@ secrets:
     file: ./secrets/postfix/users.txt
 
 services:
-  gophish:
+  # gophish:
+  #   build:
+  #     context: ./gophish
+  #   init: true
+  #   restart: always
+  #   ports:
+  #     - "3333:3333"
+  #     - "3380:8080"
+  #   networks:
+  #     - default
+  #   secrets:
+  #     - source: gophish_config_json
+  #       target: config.json
+  #     - source: gophish_admin_fullchain_pem
+  #       target: admin_fullchain.pem
+  #     - source: gophish_admin_privkey_pem
+  #       target: admin_privkey.pem
+  #     - source: gophish_phish_fullchain_pem
+  #       target: phish_fullchain.pem
+  #     - source: gophish_phish_privkey_pem
+  #       target: phish_privkey.pem
+
+  evilginx2:
     build:
-      context: ./gophish
-    init: true
-    restart: always
+        context: ./evilginx2
+    container_name: evilginx2
     ports:
-      - "3333:3333"
-      - "3380:8080"
-    networks:
-      - default
-    secrets:
-      - source: gophish_config_json
-        target: config.json
-      - source: gophish_admin_fullchain_pem
-        target: admin_fullchain.pem
-      - source: gophish_admin_privkey_pem
-        target: admin_privkey.pem
-      - source: gophish_phish_fullchain_pem
-        target: phish_fullchain.pem
-      - source: gophish_phish_privkey_pem
-        target: phish_privkey.pem
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
 
-  # gophish-tools:
-  #   image: cisagov/gophish-tools:latest
+  # mailhog:
+  #   image: mailhog/mailhog
+  #   restart: always
+  #   ports:
+  #     - "8025:8025"
+  #     - "2025:1025"
+  #   networks:
+  #     - default
 
-  mailhog:
-    image: mailhog/mailhog
-    restart: always
-    ports:
-      - "8025:8025"
-      - "2025:1025"
-    networks:
-      - default
-
-  postfix:
-    build:
-      context: ./postfix
-    init: false
-    restart: always
-    environment:
-      - PRIMARY_DOMAIN=example.com
-      # Mail relay through postfix will only work if the RELAY_IP matches
-      # the default network subnet defined below.
-      - RELAY_IP=172.16.202.0/24
-    ports:
-      - "2525:25"
-      - "587:587"
-    secrets:
-      - source: postfix_fullchain_pem
-        target: fullchain.pem
-      - source: postfix_privkey_pem
-        target: privkey.pem
-      - source: postfix_users_txt
-        target: users.txt
+  # postfix:
+  #   build:
+  #     context: ./postfix
+  #   init: false
+  #   restart: always
+  #   environment:
+  #     - PRIMARY_DOMAIN=example.com
+  #     # Mail relay through postfix will only work if the RELAY_IP matches
+  #     # the default network subnet defined below.
+  #     - RELAY_IP=172.16.202.0/24
+  #   ports:
+  #     - "2525:25"
+  #     - "587:587"
+  #   secrets:
+  #     - source: postfix_fullchain_pem
+  #       target: fullchain.pem
+  #     - source: postfix_privkey_pem
+  #       target: privkey.pem
+  #     - source: postfix_users_txt
+  #       target: users.txt
 
 networks:
   default:

@@ -1,11 +1,6 @@
+# Runtime container
 FROM debian:bullseye-slim
 
-# The version of Gophish to install
-ARG GOPHISH_VERSION="0.12.1"
-
-###
-# Unprivileged user setup variables
-###
 ARG GOPHISH_UID=421
 ARG GOPHISH_GID=${GOPHISH_UID}
 ARG GOPHISH_USER="phisher"
@@ -33,22 +28,26 @@ RUN groupadd --system --gid ${GOPHISH_GID} ${GOPHISH_GROUP} \
 ENV DEPS \
     ca-certificates \
     libsqlite3-dev \
-    sqlite3
+    sqlite3 \
+    gcc
 ENV INSTALL_DEPS \
-    unzip \
-    wget
+    golang \
+    git
 RUN apt-get install --quiet --quiet --yes \
     --no-install-recommends --no-install-suggests \
     $DEPS $INSTALL_DEPS
 
-    
-RUN wget --no-verbose https://github.com/kgretzky/gophish/releases/download/v${GOPHISH_VERSION}/gophish-v${GOPHISH_VERSION}-linux-64bit.zip \
-    && unzip -d ${GOPHISH_HOME} gophish-v${GOPHISH_VERSION}-linux-64bit.zip \
-    && rm --force gophish-v${GOPHISH_VERSION}-linux-64bit.zip
-RUN chmod +x ${GOPHISH_HOME}/gophish \
-    && ln --symbolic --no-dereference --force /run/secrets/config.json ${GOPHISH_HOME}/config.json \
-    && mkdir --parents ${GOPHISH_HOME}/data \
-    && ln --symbolic --no-dereference --force ${GOPHISH_HOME}/data/gophish.db ${GOPHISH_HOME}/gophish.db
+WORKDIR ${GOPHISH_HOME}
+
+RUN git clone https://github.com/kgretzky/gophish.git ${GOPHISH_HOME}/gophish \
+    && cd ${GOPHISH_HOME}/gophish \
+    && go build -o gophish
+
+RUN chmod +x ${GOPHISH_HOME}/gophish/gophish \
+    && ln --symbolic --no-dereference --force /run/secrets/config.json ${GOPHISH_HOME}/gophish/config.json \
+    && mkdir --parents ${GOPHISH_HOME}/gophish/data \
+    && ln --symbolic --no-dereference --force ${GOPHISH_HOME}/gophish/data/gophish.db ${GOPHISH_HOME}/gophish/gophish.db
+
 
 ###
 # Remove install dependencies
@@ -70,6 +69,6 @@ RUN chown --recursive ${GOPHISH_USER}:${GOPHISH_GROUP} ${GOPHISH_HOME}
 # Prepare to run
 ###
 USER ${GOPHISH_USER}:${GOPHISH_GROUP}
-WORKDIR ${GOPHISH_HOME}
+WORKDIR ${GOPHISH_HOME}/gophish
 EXPOSE 3333/TCP 8080/TCP
 ENTRYPOINT ["./gophish"]
